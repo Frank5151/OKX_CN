@@ -48,10 +48,10 @@ def main():
     total_sub = total_big_cycles * sub_per_big
     bar_length = 60
 
-    # 预估耗时
+    # 预估耗时：包含每个小循环的等待、每个小循环结束后的等待，以及每个大循环后的 30s 暂停
     single_sub_sleep = 8 * normal_delay + step_input_delay + loop_end_delay
-    single_sub_estimate = single_sub_sleep + 0.2
-    estimate_seconds = total_sub * single_sub_estimate
+    big_loop_pause = 30.0
+    estimate_seconds = total_sub * single_sub_sleep + total_big_cycles * big_loop_pause
     estimate_min = estimate_seconds / 60
 
     print(f"\n====任务预估信息====")
