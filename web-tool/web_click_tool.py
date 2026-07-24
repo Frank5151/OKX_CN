@@ -75,7 +75,7 @@ def main():
         (1771, 388),
         (1783, 388),
         (1793, 388),
-        (1804, 388),
+        (1804, 388), 
         (1816, 388),
         (1827, 388),
         (1837, 388),
@@ -149,6 +149,8 @@ def main():
 
             time.sleep(loop_end_delay)
             finished_sub += 1
+
+        time.sleep(10)
 
     # 任务完成最终进度条
     progress = finished_sub / total_sub
