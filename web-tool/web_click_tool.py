@@ -48,8 +48,12 @@ def main():
     total_sub = total_big_cycles * sub_per_big
     bar_length = 60
 
-    # 预估耗时：包含每个小循环的等待、每个小循环结束后的等待，以及每个大循环后的 30s 暂停
-    single_sub_sleep = 8 * normal_delay + step_input_delay + loop_end_delay
+    # 预估耗时：基于实际步骤等待、动作开销以及每个大循环后的 30s 暂停进行估算
+    per_step_waits = [normal_delay] * 10
+    per_step_waits[5] = step_input_delay  # 第 6 步输入时延时更长
+    step_wait_total = sum(per_step_waits[:9])  # 第 10 步不额外等待
+    action_overhead = 0.08
+    single_sub_sleep = step_wait_total + loop_end_delay + action_overhead
     big_loop_pause = 30.0
     estimate_seconds = total_sub * single_sub_sleep + total_big_cycles * big_loop_pause
     estimate_min = estimate_seconds / 60
@@ -150,7 +154,7 @@ def main():
             time.sleep(loop_end_delay)
             finished_sub += 1
 
-        time.sleep(10)
+        time.sleep(big_loop_pause)
 
     # 任务完成最终进度条
     progress = finished_sub / total_sub
